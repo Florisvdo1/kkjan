@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Mindful Response App with Silhouettes</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #111;
+            border-bottom: 1px solid #333;
+        }
+        header h1 {
+            font-size: 24px;
+        }
+        section {
+            padding: 20px;
+        }
+        .chatbot, .tools, .visualization, .white-noise, .notes, .silhouettes {
+            margin-top: 20px;
+        }
+        input, button, textarea {
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+        }
+        button {
+            background-color: #555;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #777;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            background-color: #222;
+            color: #fff;
+            border: 1px solid #333;
+            border-radius: 5px;
+        }
+        .chat-response {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #222;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .response-entry {
+            margin-bottom: 10px;
+        }
+        .user {
+            color: #00ff00;
+        }
+        .bot {
+            color: #00aaff;
+        }
+        canvas {
+            border: 1px solid #333;
+            display: block;
+            margin: 0 auto;
+            background-color: #111;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mindful Response App with Silhouettes</h1>
+    </header>
+
+    <!-- Psychological Tools Section -->
+    <section class="tools">
+        <h2>Psychological Tools</h2>
+        <p>Use these tools to stay calm and grounded:</p>
+        <ul>
+            <li><strong>Mantra:</strong> "I am in control of my emotions."</li>
+            <li><strong>Live Tip:</strong> Silence can be the strongest response.</li>
+        </ul>
+    </section>
+
+    <!-- Chatbot Section -->
+    <section class="chatbot">
+        <h2>Chatbot</h2>
+        <p>Type your question below:</p>
+        <input type="text" id="chat-input" placeholder="Ask for advice...">
+        <button id="chat-submit">Submit</button>
+        <div id="chat-response" class="chat-response"></div>
+    </section>
+
+    <!-- White Noise Player -->
+    <section class="white-noise">
+        <h2>White Noise Player</h2>
+        <audio controls>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <audio controls>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </section>
+
+    <!-- Visualization Section -->
+    <section class="visualization">
+        <h2>Visualization for Grounding</h2>
+        <canvas id="calmCanvas" width="300" height="300"></canvas>
+    </section>
+
+    <!-- Notes Section -->
+    <section class="notes">
+        <h2>Private Notes</h2>
+        <textarea id="notes-input" placeholder="Write your notes here..."></textarea>
+        <button id="notes-submit">Save Note</button>
+        <div id="notes-list"></div>
+    </section>
+
+    <!-- Silhouettes Section -->
+    <section class="silhouettes">
+        <h2>Silhouette Mini-Game</h2>
+        <p>Interact with silhouettes below:</p>
+        <canvas id="silhouetteCanvas" width="300" height="400"></canvas>
+    </section>
+
+    <script>
+        // Silhouette Mini-Game Logic
+        const silhouetteCanvas = document.getElementById('silhouetteCanvas');
+        const ctx = silhouetteCanvas.getContext('2d');
+        const silhouettes = [
+            { x: 50, y: 50, width: 80, height: 200, color: 'cyan' },
+            { x: 170, y: 50, width: 80, height: 200, color: 'magenta' }
+        ];
+
+        function drawSilhouettes() {
+            ctx.clearRect(0, 0, silhouetteCanvas.width, silhouetteCanvas.height);
+            silhouettes.forEach(silhouette => {
+                ctx.fillStyle = silhouette.color;
+                ctx.fillRect(silhouette.x, silhouette.y, silhouette.width, silhouette.height);
+            });
+        }
+
+        function handleSilhouetteClick(event) {
+            const rect = silhouetteCanvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            silhouettes.forEach(silhouette => {
+                if (
+                    x >= silhouette.x &&
+                    x <= silhouette.x + silhouette.width &&
+                    y >= silhouette.y &&
+                    y <= silhouette.y + silhouette.height
+                ) {
+                    alert('You clicked a silhouette!');
+                }
+            });
+        }
+
+        silhouetteCanvas.addEventListener('click', handleSilhouetteClick);
+        drawSilhouettes();
+
+        // Visualization Animation
+        const canvas = document.getElementById('calmCanvas');
+        const ctxCalm = canvas.getContext('2d');
+        function drawCircle() {
+            ctxCalm.clearRect(0, 0, canvas.width, canvas.height);
+            ctxCalm.beginPath();
+            const time = new Date();
+            const radius = 100 + 10 * Math.sin(time.getSeconds() + time.getMilliseconds() / 1000);
+            ctxCalm.arc(150, 150, radius, 0, Math.PI * 2);
+            ctxCalm.strokeStyle = 'cyan';
+            ctxCalm.lineWidth = 2;
+            ctxCalm.stroke();
+            requestAnimationFrame(drawCircle);
+        }
+        drawCircle();
+    </script>
+</body>
+</html>
